@@ -12,46 +12,80 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        /* Background Hitam dengan Efek Cahaya Bergerak */
         body {
-            background: radial-gradient(circle, rgba(50, 150, 255, 0.8) 0%, rgba(20, 80, 200, 1) 100%);
+            background: black;
             color: white;
             text-align: center;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Efek Parallax */
         .background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: 50px 50px;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-            animation: bergerak 10s linear infinite;
+            background: radial-gradient(circle, rgba(0,255,255,0.2) 10%, rgba(0,0,0,1) 70%);
+            animation: moveBg 8s infinite alternate ease-in-out;
+            z-index: -2;
+            opacity: 0.4;
+        }
+
+        @keyframes moveBg {
+            0% { transform: translateX(-10px) translateY(-10px); }
+            100% { transform: translateX(10px) translateY(10px); }
+        }
+
+        /* Efek Partikel Cahaya */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             z-index: -1;
         }
 
-        @keyframes bergerak {
-            from { transform: translate(0, 0); }
-            to { transform: translate(-50px, -50px); }
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: cyan;
+            border-radius: 50%;
+            box-shadow: 0 0 10px cyan;
+            opacity: 0.6;
+            animation: moveParticle linear infinite;
+        }
+
+        @keyframes moveParticle {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
         }
 
         /* Header */
         header {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            color: cyan;
             padding: 15px;
             font-size: 26px;
             font-weight: bold;
+            border-bottom: 2px solid cyan;
+            text-shadow: 0px 0px 10px cyan;
             backdrop-filter: blur(10px);
-            border-bottom: 3px solid rgba(255, 255, 255, 0.5);
             position: sticky;
             top: 0;
-            z-index: 100;
-            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
-            overflow: hidden;
+            z-index: 10;
         }
 
         /* Grid Produk */
@@ -59,30 +93,26 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            justify-content: center;
             padding: 40px;
             max-width: 1000px;
             margin: auto;
-            padding-bottom: 100px;
         }
 
-        /* Efek Produk */
         .produk {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid cyan;
             padding: 20px;
+            border-radius: 15px;
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0px 0px 15px cyan;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             opacity: 0;
             transform: translateY(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
         .produk:hover {
             transform: scale(1.05);
-            box-shadow: 0px 15px 40px rgba(255, 255, 255, 0.4);
+            box-shadow: 0px 0px 30px cyan;
         }
 
         .produk.muncul {
@@ -93,41 +123,39 @@
         .produk img {
             width: 100%;
             border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.5);
+            box-shadow: 0px 5px 15px cyan;
         }
 
         .produk h2 {
             margin: 15px 0;
             font-size: 22px;
-            text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
+            text-shadow: 0px 0px 8px cyan;
         }
 
         .harga {
             font-size: 20px;
             font-weight: bold;
             color: #ffeb3b;
-            text-shadow: 0px 0px 8px rgba(255, 235, 59, 0.8);
+            text-shadow: 0px 0px 8px yellow;
         }
 
         .wa-button {
             background: linear-gradient(90deg, #25D366, #128C7E);
             color: white;
-            border: none;
             padding: 12px;
-            cursor: pointer;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
             text-decoration: none;
             display: inline-block;
-            box-shadow: 0px 5px 15px rgba(37, 211, 102, 0.5);
+            font-weight: bold;
+            box-shadow: 0px 5px 15px #25D366;
+            transition: 0.3s ease;
         }
 
         .wa-button:hover {
-            background: linear-gradient(90deg, #128C7E, #25D366);
-            box-shadow: 0px 10px 25px rgba(37, 211, 102, 0.7);
+            box-shadow: 0px 10px 25px #25D366;
         }
 
+        /* Media Query */
         @media (max-width: 600px) {
             .produk-container {
                 grid-template-columns: 1fr;
@@ -138,39 +166,38 @@
 <body>
 
     <div class="background"></div>
+    <div class="particles"></div>
 
     <header>ALL PRODUK DULZZ4YOU</header>
 
     <section class="produk-container">
         <div class="produk">
-            <img src="https://i.imgur.com/pktUXWl.jpeg" alt="Laptop Gaming">
+            <img src="https://i.imgur.com/pktUXWl.jpeg" alt="Murid Unchek">
             <h2>Murid Unchek</h2>
             <span class="harga">Rp 20.000</span>
             <a href="https://wa.wizard.id/84cb65" class="wa-button">Pesan via WhatsApp</a>
         </div>
 
         <div class="produk">
-            <img src="https://i.imgur.com/WYAdSrb.jpeg" alt="Keyboard Mechanical">
+            <img src="https://i.imgur.com/WYAdSrb.jpeg" alt="Murid Jasteb">
             <h2>Murid Jasteb</h2>
             <span class="harga">Rp 20.000</span>
             <a href="https://wa.wizard.id/f86d7b" class="wa-button">Pesan via WhatsApp</a>
         </div>
 
         <div class="produk">
-            <img src="https://i.imgur.com/JgaPllt.jpeg" alt="Mouse Gaming">
+            <img src="https://i.imgur.com/JgaPllt.jpeg" alt="Murid Jpm">
             <h2>Murid Jpm</h2>
             <span class="harga">Rp 15.000</span>
             <a href="https://wa.wizard.id/fb7f57" class="wa-button">Pesan via WhatsApp</a>
         </div>
 
         <div class="produk">
-            <img src="https://i.imgur.com/7QrIV9x.jpeg" alt="Headphone Bluetooth">
+            <img src="https://i.imgur.com/7QrIV9x.jpeg" alt="Murid Bug">
             <h2>Murid Bug</h2>
             <span class="harga">Rp 5.000</span>
             <a href="https://wa.wizard.id/f5db1e" class="wa-button">Pesan via WhatsApp</a>
-        </div>
-        
-                <div class="produk">
+            <div class="produk">
             <img src="https://i.imgur.com/LmRFlHt.jpeg" alt="Headphone Bluetooth">
             <h2>Murid Band</h2>
             <span class="harga">Rp 5.000</span>
@@ -182,19 +209,30 @@
             <h2>Murid Suntik</h2>
             <span class="harga">Rp 8.000</span>
             <a href="https://wa.wizard.id/c10f25" class="wa-button">Pesan via WhatsApp</a>
-            <div>
+        </div>
     </section>
 
     <script>
+        // Efek Muncul Produk Saat Scroll
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".produk").forEach(produk => {
-                new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add("muncul");
-                    });
-                }, { threshold: 0.3 }).observe(produk);
+                produk.classList.add("muncul");
             });
         });
+
+        // Buat Partikel Cahaya
+        function createParticles() {
+            let particlesContainer = document.querySelector(".particles");
+            for (let i = 0; i < 30; i++) {
+                let particle = document.createElement("div");
+                particle.classList.add("particle");
+                particle.style.left = Math.random() * 100 + "vw";
+                particle.style.animationDuration = Math.random() * 5 + 3 + "s";
+                particle.style.animationDelay = Math.random() * 3 + "s";
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
     </script>
 
 </body>
